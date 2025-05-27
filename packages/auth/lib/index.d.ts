@@ -1806,17 +1806,27 @@ export namespace FirebaseAuthTypes {
     /**
      * Signs a user in with an email and password.
      *
+     * ⚠️ Note:
+     * If "Email Enumeration Protection" is enabled in your Firebase Authentication settings (enabled by default),
+     * Firebase may return a generic `auth/invalid-login-credentials` error instead of more specific ones like
+     * `auth/user-not-found` or `auth/wrong-password`. This behavior is intended to prevent leaking information
+     * about whether an account with the given email exists.
+     *
+     * To receive detailed error codes, you must disable "Email Enumeration Protection", which may increase
+     * security risks if not properly handled on the frontend.
+     *
      * #### Example
      *
      * ```js
      * const userCredential = await firebase.auth().signInWithEmailAndPassword('joe.bloggs@example.com', '123456');
-     * ````
+     * ```
+     *
      * @error auth/invalid-email Thrown if the email address is not valid.
      * @error auth/user-disabled Thrown if the user corresponding to the given email has been disabled.
-     * @error auth/user-not-found Thrown if there is no user corresponding to the given email.
-     * @error auth/wrong-password Thrown if the password is invalid for the given email, or the account corresponding to the email does not have a password set.
-     * @param email The users email address.
-     * @param password The users password.
+     * @error auth/user-not-found Thrown if there is no user corresponding to the given email. (May be suppressed if email enumeration protection is enabled.)
+     * @error auth/wrong-password Thrown if the password is invalid or missing. (May be suppressed if email enumeration protection is enabled.)
+     * @param email The user's email address.
+     * @param password The user's password.
      */
     signInWithEmailAndPassword(email: string, password: string): Promise<UserCredential>;
 
@@ -2008,17 +2018,18 @@ export namespace FirebaseAuthTypes {
     sendSignInLinkToEmail(email: string, actionCodeSettings?: ActionCodeSettings): Promise<void>;
 
     /**
-     * Returns whether the user signed in with a given email link.
+     * Checks if an incoming link is a sign-in with email link suitable for signInWithEmailLink.
+     * Note that android and other platforms require `apiKey` link parameter for signInWithEmailLink
      *
      * #### Example
      *
      * ```js
-     * const signedInWithLink = firebase.auth().isSignInWithEmailLink(link);
+     * const valid = await firebase.auth().isSignInWithEmailLink(link);
      * ```
      *
-     * @param emailLink The email link to check whether the user signed in with it.
+     * @param emailLink The email link to verify prior to using signInWithEmailLink
      */
-    isSignInWithEmailLink(emailLink: string): boolean;
+    isSignInWithEmailLink(emailLink: string): Promise<boolean>;
 
     /**
      * Signs the user in with an email link.
@@ -2095,18 +2106,27 @@ export namespace FirebaseAuthTypes {
     /**
      * Returns a list of authentication methods that can be used to sign in a given user (identified by its main email address).
      *
+     * ⚠️ Note:
+     * If "Email Enumeration Protection" is enabled in your Firebase Authentication settings (which is the default),
+     * this method may return an empty array even if the email is registered, especially when called from an unauthenticated context.
+     *
+     * This is a security measure to prevent leaking account existence via email enumeration attacks.
+     * Do not use the result of this method to directly inform the user whether an email is registered.
+     *
      * #### Example
      *
      * ```js
      * const methods = await firebase.auth().fetchSignInMethodsForEmail('joe.bloggs@example.com');
      *
-     * methods.forEach((method) => {
-     *   console.log(method);
-     * });
+     * if (methods.length > 0) {
+     *   // Likely a registered user — offer sign-in
+     * } else {
+     *   // Could be unregistered OR email enumeration protection is active — offer registration
+     * }
      * ```
      *
      * @error auth/invalid-email Thrown if the email address is not valid.
-     * @param email The users email address.
+     * @param email The user's email address.
      */
     fetchSignInMethodsForEmail(email: string): Promise<string[]>;
 

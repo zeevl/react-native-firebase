@@ -12,6 +12,8 @@ jobs:
     name: 'NPM'
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # to enable use of OIDC for npm provenance
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,7 +23,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Yarn Install
         uses: nick-fields/retry@v3
         with:

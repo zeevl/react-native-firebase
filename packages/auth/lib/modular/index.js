@@ -19,6 +19,7 @@ import { getApp } from '@react-native-firebase/app';
 import { fetchPasswordPolicy } from '../password-policy/passwordPolicyApi';
 import { PasswordPolicyImpl } from '../password-policy/PasswordPolicyImpl';
 import FacebookAuthProvider from '../providers/FacebookAuthProvider';
+import { MultiFactorUser } from '../multiFactor';
 export { FacebookAuthProvider };
 
 /**
@@ -165,7 +166,7 @@ export async function getRedirectResult(auth, resolver) {
  * Checks if an incoming link is a sign-in with email link suitable for signInWithEmailLink().
  * @param {Auth} auth - The Auth instance.
  * @param {string} emailLink - The email link to check.
- * @returns {boolean}
+ * @returns {Promise<boolean>}
  */
 export function isSignInWithEmailLink(auth, emailLink) {
   return auth.isSignInWithEmailLink(emailLink);
@@ -462,7 +463,7 @@ export async function linkWithRedirect(user, provider, resolver) {
  * @returns {MultiFactorUser}
  */
 export function multiFactor(user) {
-  return user._auth.multiFactor(user);
+  return new MultiFactorUser(getAuth(), user);
 }
 
 /**

@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [22.2.0](https://github.com/invertase/react-native-firebase/compare/v22.1.0...v22.2.0) (2025-05-12)
+
+**Note:** Version bump only for package @react-native-firebase/app
+
+## [22.1.0](https://github.com/invertase/react-native-firebase/compare/v22.0.0...v22.1.0) (2025-04-30)
+
+### Bug Fixes
+
+- **app, expo:** add config plugin support for Expo SDK 53 ([#8495](https://github.com/invertase/react-native-firebase/issues/8495)) ([7617611](https://github.com/invertase/react-native-firebase/commit/7617611fb7ba903d7a15b44bc34c930a354a863c))
+- **app, expo:** update config plugin to match Expo 53.0.1 AppDelegate ([#8500](https://github.com/invertase/react-native-firebase/issues/8500)) ([3d3c4ec](https://github.com/invertase/react-native-firebase/commit/3d3c4ece9f9a9de76e36f4f35611fca5ed208abc))
+- **app:** provide modular-like APIs for RNFB-specific json/meta/preferences methods ([9bb5365](https://github.com/invertase/react-native-firebase/commit/9bb536523869a21a26bd46756d0f42ee2ff34321))
+- **app:** toString() does not exist in modular API, use .name property ([2a99366](https://github.com/invertase/react-native-firebase/commit/2a99366ae56a36a6d4b3bdb7beca6137c4040e59))
+
+## [22.0.0](https://github.com/invertase/react-native-firebase/compare/v21.14.0...v22.0.0) (2025-04-25)
+
+### ⚠ BREAKING CHANGES
+
+- **app, sdks:** firebase-ios-sdk 11.12.0 requires Xcode 16.2+
+
+### Features
+
+- **app, sdks:** firebase-ios-sdk 11.12.0 / firebase-android-sdk 33.13.0 ([c63d843](https://github.com/invertase/react-native-firebase/commit/c63d8435b678742cfdd98f4d1d8895134cb9cf09))
+
+### Bug Fixes
+
+- **analytics:** Type defs ([#8363](https://github.com/invertase/react-native-firebase/issues/8363)) ([74efc84](https://github.com/invertase/react-native-firebase/commit/74efc848e3ecda47b5c7cdf79e5e72370cd10b7d))
+- **android:** use `=` assignment vs deprecated space-assignment ([39c2ecb](https://github.com/invertase/react-native-firebase/commit/39c2ecb0069a8a5a65b04fb7f86ccecf83273868))
+- enable provenance signing during publish ([4535f0d](https://github.com/invertase/react-native-firebase/commit/4535f0d5756c89aeb8f8e772348c71d8176348be))
+
 ## [21.14.0](https://github.com/invertase/react-native-firebase/compare/v21.13.0...v21.14.0) (2025-04-14)
 
 ### Features
